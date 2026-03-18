@@ -95,8 +95,8 @@ database.sql
 
 Open browser:
 
-http://localhost/college_canteen
-
+[http://localhost/college_canteen
+](http://localhost/canteenu/canteen/)
 🎉 Application is now running locally.
 
 🔐 Database Configuration
