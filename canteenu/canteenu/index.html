@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CanteenU | Premium College Dining</title>
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+        <path d="M7 2v20"></path>
+        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+      </svg>
+      Canteen<span>U</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="orders.html">My Orders</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html" class="btn btn-nav">Register</a></li>
+    </ul>
+
+    <!-- Cart Icon -->
+    <button class="cart-icon-btn" onclick="toggleCart()" aria-label="Open cart">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </nav>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
+          <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+      <button class="btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+    </div>
+  </aside>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1 class="animate-fade-up">Fresh Food,<br>Delivered Fast.</h1>
+    <p class="animate-fade-up delay-1">Skip the queue. Pre-order your favorite campus meals and pick them up instantly.</p>
+    <a href="#menu" class="btn animate-fade-up delay-2" style="width:auto;">Explore Menu</a>
+  </header>
+
+  <main class="container">
+
+    <!-- Category Filter -->
+    <section id="menu">
+      <h2 class="section-title">Our Menu</h2>
+
+      <div class="category-tabs">
+        <button class="tab-btn active" onclick="filterCategory('all', this)">All</button>
+        <button class="tab-btn" onclick="filterCategory('snacks', this)">🥪 Snacks</button>
+        <button class="tab-btn" onclick="filterCategory('meals', this)">🍱 Meals</button>
+        <button class="tab-btn" onclick="filterCategory('drinks', this)">☕ Drinks</button>
+        <button class="tab-btn" onclick="filterCategory('desserts', this)">🍰 Desserts</button>
+      </div>
+
+      <div class="menu-grid" id="menuGrid">
+
+        <!-- SNACKS -->
+        <article class="card" data-category="snacks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=600" alt="Classic Burger" loading="lazy">
+            <span class="category-badge">Snacks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Classic Burger</h3>
+            <p class="card-desc">Juicy patty with lettuce, tomato & cheese</p>
+            <div class="card-footer">
+              <p class="card-price">₹50</p>
+              <button class="btn btn-add" onclick="addToCart('Classic Burger', 50)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="snacks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1601050690597-df0568a70f50?auto=format&fit=crop&q=80&w=600" alt="Crispy Samosa" loading="lazy">
+            <span class="category-badge">Snacks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Crispy Samosa</h3>
+            <p class="card-desc">Golden fried pastry with spiced potato filling</p>
+            <div class="card-footer">
+              <p class="card-price">₹20</p>
+              <button class="btn btn-add" onclick="addToCart('Crispy Samosa', 20)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="snacks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&q=80&w=600" alt="Vada Pav" loading="lazy">
+            <span class="category-badge">Snacks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Vada Pav</h3>
+            <p class="card-desc">Mumbai-style spiced potato fritter in a bun</p>
+            <div class="card-footer">
+              <p class="card-price">₹25</p>
+              <button class="btn btn-add" onclick="addToCart('Vada Pav', 25)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="snacks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=600" alt="Spring Roll" loading="lazy">
+            <span class="category-badge">Snacks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Spring Roll</h3>
+            <p class="card-desc">Crispy rolls stuffed with veggies & noodles</p>
+            <div class="card-footer">
+              <p class="card-price">₹40</p>
+              <button class="btn btn-add" onclick="addToCart('Spring Roll', 40)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="snacks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&q=80&w=600" alt="French Fries" loading="lazy">
+            <span class="category-badge">Snacks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">French Fries</h3>
+            <p class="card-desc">Salted golden fries with ketchup & mayo</p>
+            <div class="card-footer">
+              <p class="card-price">₹60</p>
+              <button class="btn btn-add" onclick="addToCart('French Fries', 60)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- MEALS -->
+        <article class="card" data-category="meals">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=600" alt="Margherita Pizza" loading="lazy">
+            <span class="category-badge">Meals</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Margherita Pizza</h3>
+            <p class="card-desc">Classic tomato sauce, mozzarella & basil</p>
+            <div class="card-footer">
+              <p class="card-price">₹120</p>
+              <button class="btn btn-add" onclick="addToCart('Margherita Pizza', 120)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="meals">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&q=80&w=600" alt="Veg Thali" loading="lazy">
+            <span class="category-badge">Meals</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Veg Thali</h3>
+            <p class="card-desc">Dal, sabzi, rice, roti, salad & pickle</p>
+            <div class="card-footer">
+              <p class="card-price">₹80</p>
+              <button class="btn btn-add" onclick="addToCart('Veg Thali', 80)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="meals">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&q=80&w=600" alt="Chicken Rice Bowl" loading="lazy">
+            <span class="category-badge">Meals</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Chicken Rice Bowl</h3>
+            <p class="card-desc">Grilled chicken over steamed rice & gravy</p>
+            <div class="card-footer">
+              <p class="card-price">₹110</p>
+              <button class="btn btn-add" onclick="addToCart('Chicken Rice Bowl', 110)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="meals">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1626700051175-6818013e1d4f?auto=format&fit=crop&q=80&w=600" alt="Paneer Wrap" loading="lazy">
+            <span class="category-badge">Meals</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Paneer Wrap</h3>
+            <p class="card-desc">Grilled paneer, onion & mint chutney in a wrap</p>
+            <div class="card-footer">
+              <p class="card-price">₹70</p>
+              <button class="btn btn-add" onclick="addToCart('Paneer Wrap', 70)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- DRINKS -->
+        <article class="card" data-category="drinks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=600" alt="Masala Chai" loading="lazy">
+            <span class="category-badge">Drinks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Masala Chai</h3>
+            <p class="card-desc">Hot spiced Indian tea with ginger & cardamom</p>
+            <div class="card-footer">
+              <p class="card-price">₹10</p>
+              <button class="btn btn-add" onclick="addToCart('Masala Chai', 10)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="drinks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=600" alt="Cold Coffee" loading="lazy">
+            <span class="category-badge">Drinks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Cold Coffee</h3>
+            <p class="card-desc">Chilled blended coffee with milk & ice cream</p>
+            <div class="card-footer">
+              <p class="card-price">₹45</p>
+              <button class="btn btn-add" onclick="addToCart('Cold Coffee', 45)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="drinks">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&q=80&w=600" alt="Fresh Lime Soda" loading="lazy">
+            <span class="category-badge">Drinks</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Fresh Lime Soda</h3>
+            <p class="card-desc">Refreshing lime juice with soda & mint</p>
+            <div class="card-footer">
+              <p class="card-price">₹30</p>
+              <button class="btn btn-add" onclick="addToCart('Fresh Lime Soda', 30)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- DESSERTS -->
+        <article class="card" data-category="desserts">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&q=80&w=600" alt="Gulab Jamun" loading="lazy">
+            <span class="category-badge">Desserts</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Gulab Jamun</h3>
+            <p class="card-desc">Soft milk-solid dumplings in rose sugar syrup</p>
+            <div class="card-footer">
+              <p class="card-price">₹35</p>
+              <button class="btn btn-add" onclick="addToCart('Gulab Jamun', 35)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="desserts">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&q=80&w=600" alt="Chocolate Brownie" loading="lazy">
+            <span class="category-badge">Desserts</span>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">Chocolate Brownie</h3>
+            <p class="card-desc">Warm fudgy brownie with a scoop of vanilla ice cream</p>
+            <div class="card-footer">
+              <p class="card-price">₹55</p>
+              <button class="btn btn-add" onclick="addToCart('Chocolate Brownie', 55)">+ Add</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 CanteenU. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // When opened as plain HTML (not via XAMPP), cart submits to order.php
+    // Make sure XAMPP is running for order placement to work
+    const IS_LOGGED_IN = false; // Set to true manually if testing without PHP
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>

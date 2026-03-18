@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | CanteenU</title>
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+        <path d="M7 2v20"></path>
+        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+      </svg>
+      Canteen<span>U</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Menu</a></li>
+      <li><a href="register.html" class="btn btn-nav">Register</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-wrapper">
+    <div class="auth-card animate-fade-up">
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p>Login to your CanteenU account</p>
+      </div>
+
+      <!-- Error message shown dynamically -->
+      <div class="alert alert-error" id="errorBox" style="display:none;"></div>
+
+      <form class="glass-form auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Your password" required>
+        </div>
+        <button type="submit" class="btn" id="loginBtn">Login</button>
+        <p class="auth-switch">Don't have an account? <a href="register.html">Register</a></p>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 CanteenU. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // HTML version: submits to login.php (requires XAMPP to be running)
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'login.php';
+
+      ['email', 'password'].forEach(name => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = document.getElementById(name).value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    });
+  </script>
+</body>
+</html>

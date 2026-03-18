@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | CanteenU</title>
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+        <path d="M7 2v20"></path>
+        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+      </svg>
+      Canteen<span>U</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Menu</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-wrapper">
+    <div class="auth-card animate-fade-up">
+      <div class="auth-header">
+        <h2>Create Account</h2>
+        <p>Join CanteenU and start ordering</p>
+      </div>
+
+      <div class="alert alert-error" id="errorBox" style="display:none;"></div>
+
+      <form class="glass-form auth-form" id="registerForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Min. 6 characters" required>
+        </div>
+        <div class="form-group">
+          <label for="confirm">Confirm Password</label>
+          <input type="password" id="confirm" name="confirm" placeholder="Re-enter password" required>
+        </div>
+        <button type="submit" class="btn" id="registerBtn">Create Account</button>
+        <p class="auth-switch">Already have an account? <a href="login.html">Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 CanteenU. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // HTML version: validates then submits to register.php (requires XAMPP)
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name     = document.getElementById('name').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm  = document.getElementById('confirm').value;
+      const errorBox = document.getElementById('errorBox');
+
+      errorBox.style.display = 'none';
+
+      if (!name || !email || !password) {
+        errorBox.textContent = 'All fields are required.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      if (password.length < 6) {
+        errorBox.textContent = 'Password must be at least 6 characters.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      if (password !== confirm) {
+        errorBox.textContent = 'Passwords do not match.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // Submit to PHP backend
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'register.php';
+
+      ['name', 'email', 'password', 'confirm'].forEach(id => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = id;
+        input.value = document.getElementById(id).value;
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    });
+  </script>
+</body>
+</html>

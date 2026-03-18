@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders | CanteenU</title>
+  <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+        <path d="M7 2v20"></path>
+        <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+      </svg>
+      Canteen<span>U</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Menu</a></li>
+      <li><a href="orders.html" class="active">My Orders</a></li>
+      <li><a href="login.html">Login</a></li>
+    </ul>
+  </nav>
+
+  <div class="container" style="padding-top:3rem; padding-bottom:5rem;">
+    <h2 class="section-title animate-fade-up">My Orders</h2>
+
+    <!-- This page shows orders stored in localStorage (HTML-only mode) -->
+    <!-- When running on XAMPP, visit orders.php for full server-side orders -->
+
+    <div id="ordersContent" class="animate-fade-up"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 CanteenU. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // In HTML mode, orders are read from localStorage
+    // (These are orders placed via the cart on index.html)
+    const pastOrders = JSON.parse(localStorage.getItem('canteenu_past_orders') || '[]');
+
+    const container = document.getElementById('ordersContent');
+
+    if (pastOrders.length === 0) {
+      container.innerHTML = `
+        <div class="empty-orders">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
+            <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <h3>No orders yet</h3>
+          <p>Head back to the menu and place your first order!</p>
+          <a href="index.html" class="btn" style="width:auto; margin-top:1rem;">Browse Menu</a>
+        </div>`;
+    } else {
+      let grandTotal = 0;
+      let rows = '';
+
+      pastOrders.forEach((order, oi) => {
+        order.items.forEach((item, ii) => {
+          grandTotal += item.price * item.quantity;
+          rows += `
+            <tr>
+              <td>${oi + 1}.${ii + 1}</td>
+              <td><strong>${item.name}</strong></td>
+              <td>${item.quantity}</td>
+              <td>₹${item.price}</td>
+              <td class="total-cell">₹${item.price * item.quantity}</td>
+              <td class="date-cell">${order.date}</td>
+            </tr>`;
+        });
+      });
+
+      container.innerHTML = `
+        <div class="orders-table-wrapper">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Total</th>
+                <th>Date & Time</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" style="text-align:right; font-weight:600;">Grand Total</td>
+                <td class="grand-total" colspan="2">₹${grandTotal}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <p style="text-align:center; margin-top:1.5rem; color:var(--text-muted); font-size:.9rem;">
+          ℹ️ Running on XAMPP? Visit <a href="orders.php" style="color:var(--primary-color);">orders.php</a> for your full order history.
+        </p>`;
+    }
+  </script>
+</body>
+</html>
